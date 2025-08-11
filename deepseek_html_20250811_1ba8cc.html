@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BanksMobile - Online Banking</title>
+    <style>
+        :root {
+            --primary: #0056b3;
+            --primary-light: #e6f0ff;
+            --secondary: #6c757d;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --white: #ffffff;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #e0e0e0;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .logo span {
+            color: var(--dark);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .welcome-message {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .account-overview {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .account-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+
+        .account-item {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .account-label {
+            font-size: 14px;
+            color: var(--secondary);
+            margin-bottom: 5px;
+        }
+
+        .account-value {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .balance {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: 15px;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 12px 20px;
+            border-radius: var(--border-radius);
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-btn:hover {
+            background-color: #004494;
+            transform: translateY(-2px);
+        }
+
+        .action-btn.secondary {
+            background-color: var(--light);
+            color: var(--dark);
+        }
+
+        .action-btn.secondary:hover {
+            background-color: #e0e0e0;
+        }
+
+        .transactions {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        th {
+            font-weight: 600;
+            color: var(--secondary);
+            font-size: 14px;
+        }
+
+        .status {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status.completed {
+            background-color: #e6f7ee;
+            color: var(--success);
+        }
+
+        .status.cleared {
+            background-color: #e6f7ee;
+            color: var(--success);
+        }
+
+        .status.pending {
+            background-color: #fff8e6;
+            color: var(--warning);
+        }
+
+        .view-all {
+            display: inline-block;
+            margin-top: 15px;
+            color: var(--primary);
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .view-all:hover {
+            text-decoration: underline;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .dashboard-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--box-shadow);
+        }
+
+        .portfolio-item {
+            margin-bottom: 15px;
+        }
+
+        .portfolio-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+
+        .portfolio-name {
+            color: var(--secondary);
+        }
+
+        .portfolio-value {
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background-color: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background-color: var(--primary);
+        }
+
+        .news-item {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .news-item a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .news-item a:hover {
+            text-decoration: underline;
+        }
+
+        .offer-card {
+            background-color: var(--primary-light);
+            border-radius: var(--border-radius);
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .offer-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .offer-rate {
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .apply-btn {
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-weight: 500;
+            cursor: pointer;
+            padding: 0;
+            margin-top: 10px;
+        }
+
+        .notifications {
+            margin-top: 20px;
+        }
+
+        .notification {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .notification:last-child {
+            border-bottom: none;
+        }
+
+        .notification-icon {
+            font-size: 20px;
+        }
+
+        .notification-success {
+            color: var(--success);
+        }
+
+        .notification-warning {
+            color: var(--warning);
+        }
+
+        .notification-info {
+            color: var(--primary);
+        }
+
+        .mobile-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--light);
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .download-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .download-btn {
+            padding: 10px 15px;
+            border-radius: var(--border-radius);
+            background-color: var(--dark);
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .support-links {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .support-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--secondary);
+            text-decoration: none;
+        }
+
+        .support-link:hover {
+            color: var(--primary);
+        }
+
+        .security-tip {
+            background-color: #fff8e6;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin-top: 30px;
+            font-size: 14px;
+        }
+
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .toggle-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            color: var(--secondary);
+        }
+
+        .toggle-btn.active {
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: var(--secondary);
+            font-size: 14px;
+            border-top: 1px solid #e0e0e0;
+            margin-top: 50px;
+        }
+
+        @media (max-width: 768px) {
+            .account-details {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .quick-actions {
+                flex-direction: column;
+            }
+            
+            .action-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            th, td {
+                padding: 8px 10px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">Banks<span>Mobile</span></div>
+            <div class="user-info">
+                <div class="welcome-message">Welcome back, <strong>Alex Johnson</strong> 👋</div>
+                <div class="user-avatar">AJ</div>
+            </div>
+        </header>
+
+        <div class="account-overview">
+            <h2 class="section-title">🔒 Secure Account Dashboard</h2>
+            <div class="account-details">
+                <div class="account-item">
+                    <div class="account-label">Account Number</div>
+                    <div class="account-value">•••• •••• •••• 1234 <button class="toggle-visibility">Show</button></div>
+                </div>
+                <div class="account-item">
+                    <div class="account-label">Account Type</div>
+                    <div class="account-value">Premium Checking</div>
+                </div>
+                <div class="account-item">
+                    <div class="account-label">Available Balance</div>
+                    <div class="account-value balance">$5,280.50 USD</div>
+                </div>
+                <div class="account-item">
+                    <div class="account-label">Current Balance</div>
+                    <div class="account-value balance">$5,300.00 USD</div>
+                </div>
+            </div>
+
+            <h3>Multi-Currency Balances:</h3>
+            <div class="account-details">
+                <div class="account-item">
+                    <div class="account-value">€1,250.00 EUR</div>
+                </div>
+                <div class="account-item">
+                    <div class="account-value">£850.75 GBP</div>
+                </div>
+                <div class="account-item">
+                    <div class="account-value">¥150,000 JPY</div>
+                </div>
+            </div>
+            <div class="exchange-rate">
+                <strong>🌐 Quick Exchange Rate:</strong> 1 USD = 0.92 EUR | 0.79 GBP | 150.25 JPY
+            </div>
+
+            <div class="quick-actions">
+                <button class="action-btn">
+                    <span>💸</span> Transfer Funds
+                </button>
+                <button class="action-btn secondary">
+                    <span>💳</span> Pay Bills
+                </button>
+                <button class="action-btn secondary">
+                    <span>📷</span> Deposit Check
+                </button>
+                <button class="action-btn">
+                    <span>📈</span> Invest Now
+                </button>
+                <button class="action-btn">
+                    <span>🏦</span> Apply for Loan
+                </button>
+            </div>
+        </div>
+
+        <div class="transactions">
+            <h2 class="section-title">📊 Recent Transactions (Last 7 Days)</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>08/10/2025</td>
+                        <td>Amazon Purchase</td>
+                        <td>-$49.99</td>
+                        <td><span class="status completed">Completed</span></td>
+                    </tr>
+                    <tr>
+                        <td>08/08/2025</td>
+                        <td>Direct Deposit (Salary)</td>
+                        <td>+$3,500.00</td>
+                        <td><span class="status cleared">Cleared</span></td>
+                    </tr>
+                    <tr>
+                        <td>08/05/2025</td>
+                        <td>ATM Withdrawal</td>
+                        <td>-$100.00</td>
+                        <td><span class="status completed">Completed</span></td>
+                    </tr>
+                    <tr>
+                        <td>08/04/2025</td>
+                        <td>International Transfer</td>
+                        <td>-€200.00</td>
+                        <td><span class="status pending">Pending</span></td>
+                    </tr>
+                </tbody>
+            </table>
+            <a href="#" class="view-all">View Full Transaction History →</a>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="dashboard-card">
+                <h2 class="section-title">📈 Investment Portfolio</h2>
+                <div class="portfolio-summary">
+                    <div class="account-value balance">$12,450.25 <span style="color: var(--success); font-size: 16px;">(+2.3% ▲)</span></div>
+                </div>
+                
+                <div class="portfolio-item">
+                    <div class="portfolio-label">
+                        <span class="portfolio-name">Stocks</span>
+                        <span class="portfolio-value">$8,200.00 (65.8%)</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 65.8%;"></div>
+                    </div>
+                </div>
+                
+                <div class="portfolio-item">
+                    <div class="portfolio-label">
+                        <span class="portfolio-name">Bonds</span>
+                        <span class="portfolio-value">$2,500.00 (20.1%)</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 20.1%;"></div>
+                    </div>
+                </div>
+                
+                <div class="portfolio-item">
+                    <div class="portfolio-label">
+                        <span class="portfolio-name">Crypto</span>
+                        <span class="portfolio-value">$1,750.25 (14.1%)</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 14.1%;"></div>
+                    </div>
+                </div>
+                
+                <div class="news-item">
+                    <div>💡 <strong>Market News:</strong> "Tech stocks rise as Fed signals rate cuts."</div>
+                    <a href="#">Read More</a>
+                </div>
+            </div>
+
+            <div class="dashboard-card">
+                <h2 class="section-title">🏦 Loan & Credit Overview</h2>
+                <div class="account-details">
+                    <div class="account-item">
+                        <div class="account-label">Active Loans</div>
+                        <div class="account-value">1 (Auto Loan - $15,000 remaining)</div>
+                    </div>
+                    <div class="account-item">
+                        <div class="account-label">Credit Score</div>
+                        <div class="account-value">785 <span style="color: var(--success);">(Excellent)</span></div>
+                    </div>
+                    <div class="account-item">
+                        <div class="account-label">Credit Limit</div>
+                        <div class="account-value">$25,000 | Used: $2,300 (9%)</div>
+                    </div>
+                </div>
+                
+                <h3 style="margin-top: 20px;">🚀 Pre-approved Offers:</h3>
+                <div class="offer-card">
+                    <div class="offer-title">Personal Loan</div>
+                    <div class="offer-rate">@ 5.9% APR</div>
+                    <button class="apply-btn">Apply Now →</button>
+                </div>
+                
+                <div class="offer-card">
+                    <div class="offer-title">Mortgage Refinance</div>
+                    <div class="offer-rate">@ 4.2% APR</div>
+                    <button class="apply-btn">Check Eligibility →</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="dashboard-card">
+                <h2 class="section-title">🔔 Notifications & Alerts</h2>
+                <div class="notifications">
+                    <div class="notification">
+                        <div class="notification-icon notification-success">🟢</div>
+                        <div>
+                            <strong>Last Login:</strong> Today, 10:15 AM EST (New York)
+                        </div>
+                    </div>
+                    <div class="notification">
+                        <div class="notification-icon notification-warning">🔄</div>
+                        <div>
+                            <strong>Scheduled Payment:</strong> "Electric Bill" due 08/15/2025
+                        </div>
+                    </div>
+                    <div class="notification">
+                        <div class="notification-icon notification-info">📅</div>
+                        <div>
+                            <strong>Upcoming:</strong> Credit card payment of $120.00 due in 3 days.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-card">
+                <h2 class="section-title">📱 Mobile Banking Features</h2>
+                <div class="mobile-features">
+                    <div class="feature">🔒 Face ID / Fingerprint Login</div>
+                    <div class="feature">💳 Instant Card Locking</div>
+                    <div class="feature">🛒 Virtual Card for Online Shopping</div>
+                    <div class="feature">📊 Budgeting & Spending Analytics</div>
+                </div>
+                
+                <h3 style="margin-top: 20px;">Download Now:</h3>
+                <div class="download-buttons">
+                    <a href="#" class="download-btn">
+                        <span>📱</span> App Store
+                    </a>
+                    <a href="#" class="download-btn">
+                        <span>🤖</span> Google Play
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-card">
+            <h2 class="section-title">🎨 UI/UX Customization</h2>
+            <div class="theme-toggle">
+                <span>Theme:</span>
+                <button class="toggle-btn active">☀️ Light Mode</button>
+                <button class="toggle-btn">🌙 Dark Mode</button>
+                <span>Language:</span>
+                <select>
+                    <option>English</option>
+                    <option>Español</option>
+                    <option>Français</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="dashboard-card">
+            <h2 class="section-title">📞 24/7 Customer Support</h2>
+            <div class="support-links">
+                <a href="#" class="support-link">
+                    <span>☎️</span> 1-800-BANK-MOB
+                </a>
+                <a href="#" class="support-link">
+                    <span>💬</span> Live Chat
+                </a>
+                <a href="#" class="support-link">
+                    <span>✉️</span> support@banksmobile.com
+                </a>
+            </div>
+            
+            <div class="security-tip">
+                🔐 <strong>Security Tip:</strong> Always verify SMS/email requests. BanksMobile <strong>never</strong> asks for passwords via call.
+            </div>
+        </div>
+
+        <footer>
+            <p>BanksMobile - FDIC Insured up to $250,000 | © 2025 All Rights Reserved</p>
+            <p>Zero Fraud Liability Guarantee | AI-Powered Financial Insights</p>
+        </footer>
+    </div>
+
+    <script>
+        // Toggle account number visibility
+        const toggleBtn = document.querySelector('.toggle-visibility');
+        const accountNumber = document.querySelector('.account-value').firstChild;
+        
+        let isVisible = false;
+        
+        toggleBtn.addEventListener('click', function() {
+            isVisible = !isVisible;
+            if (isVisible) {
+                accountNumber.textContent = '1234 5678 9012 1234';
+                toggleBtn.textContent = 'Hide';
+            } else {
+                accountNumber.textContent = '•••• •••• •••• 1234';
+                toggleBtn.textContent = 'Show';
+            }
+        });
+        
+        // Theme toggle functionality
+        const lightModeBtn = document.querySelectorAll('.toggle-btn')[0];
+        const darkModeBtn = document.querySelectorAll('.toggle-btn')[1];
+        
+        lightModeBtn.addEventListener('click', function() {
+            document.body.style.backgroundColor = '#f5f7fa';
+            document.body.style.color = '#333';
+            lightModeBtn.classList.add('active');
+            darkModeBtn.classList.remove('active');
+        });
+        
+        darkModeBtn.addEventListener('click', function() {
+            document.body.style.backgroundColor = '#1a1a1a';
+            document.body.style.color = '#f0f0f0';
+            darkModeBtn.classList.add('active');
+            lightModeBtn.classList.remove('active');
+        });
+        
+        // Simulate loading animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const progressBars = document.querySelectorAll('.progress');
+            progressBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 300);
+            });
+        });
+    </script>
+</body>
+</html>
